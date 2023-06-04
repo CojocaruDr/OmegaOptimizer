@@ -9,7 +9,6 @@ import pygame
 from pygame import DOUBLEBUF, OPENGL
 
 from src.algorithms.algorithm import Algorithm
-from src.functions.functions import FunctionList
 from src.opengl.object import OglObject
 from src.types import DrawStyle, AS, A
 from src.utils import gen_cube, flatten_vertex_list, gen_basic_grid
@@ -105,7 +104,7 @@ class OglSolver:
         self.newPoints = []
         self.paused = 0
         self.doOneStep = 0
-        self.doPrint = 0
+        self.doPrint = 1
         self.shouldDrawBottom = 1
         self.shouldDrawNewVertices = 1
         self.progBarZ = -1

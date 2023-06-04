@@ -1,6 +1,7 @@
 import math
 import operator
 import random
+import numpy as np, numpy.random
 
 
 class Algorithm:
@@ -94,7 +95,7 @@ class Algorithm:
             values[ii] = self.decodeDimension(candidate[a0:a1])
             a0 = a1
             a1 += self.dimensionBitSize
-        return (values)
+        return values
 
     def decodeDimension(self, dimensionBits):
         s = 0
@@ -107,7 +108,7 @@ class Algorithm:
         self.evals += 1
         e = self.func(values)
         self.exploredPoints.append([e, *values])
-        return (e)
+        return e
 
     def restart(self):
         self.candidate = None

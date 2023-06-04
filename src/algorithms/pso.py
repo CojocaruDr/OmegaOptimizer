@@ -11,26 +11,28 @@ class AlgorithmPso(Algorithm):
     # v = random(-1, 1) * (b - a) * speedMul
     def __init__(self,
                  func,
-                 optimumIsMinimum=True,
-                 dimensions=2,
+                 minimize=False,
+                 dimensions=5,
                  steps=1,
-                 popSize=100,
-                 genNo=1000,
-                 genGrace=200,
-                 w=[1,
-                    2,
-                    2,
-                    0.9,
-                    0.5,
-                    0.1],
-                 doForever=0):
-        super().__init__(func, optimumIsMinimum, 0, dimensions, steps, doForever)
+                 pop_size=100,
+                 gen_no=1000,
+                 gen_grace=200,
+                 w=None,
+                 do_forever=0):
+        super().__init__(func, minimize, 0, dimensions, steps, do_forever)
+        if w is None:
+            w = [1,
+                 2,
+                 2,
+                 0.9,
+                 0.5,
+                 0.1]
         self.w = w
         self.w0Init = self.w[0]
-        self.popSize = popSize
-        self.genNo = genNo
+        self.popSize = pop_size
+        self.genNo = gen_no
         self.repeats = self.genNo
-        self.genGrace = genGrace
+        self.genGrace = gen_grace
         self.genCurr = self.repCurr = 0
         self.pop = None
         self.popV = None  # population speed
@@ -150,7 +152,7 @@ class AlgorithmPso(Algorithm):
                 vd = self.w[4] * self.dimIntervalLength * \
                     (random.random() * 2 - 1)
                 p.append(pd)
-                v.append(pd)
+                v.append(vd)
             pop.append(p)
             popV.append(v)
         return pop, popV

@@ -12,7 +12,7 @@ from src.algorithms.bihc import AlgorithmBihc
 from src.algorithms.ga import AlgorithmGa
 from src.algorithms.gabihc import AlgorithmGaBihc
 from src.algorithms.pso import AlgorithmPso
-from src.functions.functions import FunctionList, FE
+from src.functions.functions import Functions
 from src.opengl.solver import OglSolver
 
 from src.types import DrawStyle
@@ -86,56 +86,56 @@ def main():
     # style = DrawStyle.triangles4 #for looks
     gen_no = 1
     gen_grace = 200
-    pop_size = 50
-    dimensions = 2
+    pop_size = 100
+    dimensions = 5
     precision = 20
-    steps = 1
+    steps = 2
     algos = []
-    for fe in FE:
-        algos.extend([
-            Algorithm(func=FunctionList[fe], precision=precision, dimensions=dimensions, doForever=0,
-                      steps=steps * pop_size, repeats=pop_size * (gen_no + 5 * gen_grace), optimumIsMinimum=True),
-            # only as a small demo, that's why we lower the precision
-            AlgorithmBf(
-                func=FunctionList[fe],
-                precision=1,
-                dimensions=dimensions,
-                steps=steps,
-                optimumIsMinimum=True),
-            AlgorithmBihc(func=FunctionList[fe], precision=precision, dimensions=dimensions, steps=steps,
-                          optimumIsMinimum=True, repeats=gen_no + 5 * gen_grace),
-            AlgorithmPso(func=FunctionList[fe], dimensions=dimensions, steps=steps, doForever=0, popSize=pop_size,
-                         genNo=gen_no, genGrace=gen_grace, optimumIsMinimum=True, w=[1, 2.05, 2.05, 0.99, 0.1, 0.01]),
-            AlgorithmGa(func=FunctionList[fe], precision=precision, dimensions=dimensions, steps=steps,
-                        popSize=pop_size,
-                        selPressure=1, doForever=0, genNo=gen_no, genGrace=gen_grace, optimumIsMinimum=True),
-            AlgorithmGa(func=FunctionList[fe], precision=precision, dimensions=dimensions, steps=steps,
-                        popSize=pop_size,
-                        selPressure=1, doForever=0, genNo=gen_no, genGrace=gen_grace, optimumIsMinimum=True, pm=0.5),
-            AlgorithmGa(func=FunctionList[fe], precision=precision, dimensions=dimensions, steps=steps,
-                        popSize=pop_size,
-                        selPressure=1, doForever=0, genNo=gen_no, genGrace=gen_grace, optimumIsMinimum=True, pm=0.95),
-            AlgorithmGaBihc(func=FunctionList[fe], precision=precision, dimensions=dimensions, steps=steps,
-                            popSize=pop_size, selPressure=1, doForever=0, genNo=gen_no, genGrace=gen_grace,
-                            optimumIsMinimum=True),
-            AlgorithmGaBihc(func=FunctionList[fe], precision=precision, dimensions=dimensions, steps=steps,
-                            popSize=pop_size, selPressure=1, doForever=0, genNo=gen_no, genGrace=gen_grace,
-                            optimumIsMinimum=True, pm=0.5),
-            AlgorithmGaBihc(func=FunctionList[fe], precision=precision, dimensions=dimensions, steps=steps,
-                            popSize=pop_size, selPressure=1, doForever=0, genNo=gen_no, genGrace=gen_grace,
-                            optimumIsMinimum=True, pm=0.95),
-        ])
-
-    algos.append(AlgorithmGa(func=FunctionList[FE.rastrigin],
-                             precision=precision,
-                             dimensions=dimensions,
-                             steps=steps,
-                             popSize=pop_size,
-                             selPressure=1,
-                             doForever=1,
-                             genNo=gen_no,
-                             genGrace=gen_grace,
-                             optimumIsMinimum=True))
+    functions = [Functions.omega, Functions.omegaRange]
+    algos.extend([
+        # Algorithm(func=functions, precision=precision, dimensions=dimensions, doForever=0,
+        #           steps=steps * pop_size, repeats=pop_size * (gen_no + 5 * gen_grace), optimumIsMinimum=False),
+        # # only as a small demo, that's why we lower the precision
+        # AlgorithmBf(
+        #     func=functions,
+        #     precision=1,
+        #     dimensions=dimensions,
+        #     steps=steps,
+        #     optimumIsMinimum=False),
+        # AlgorithmBihc(func=functions, precision=precision, dimensions=dimensions, steps=steps,
+        #               optimumIsMinimum=False, repeats=gen_no + 5 * gen_grace),
+        AlgorithmPso(func=functions, dimensions=dimensions, steps=steps, do_forever=1, pop_size=pop_size,
+                     gen_no=gen_no, gen_grace=gen_grace, minimize=False, w=[1, 2.05, 2.05, 0.99, 0.1, 0.01]),
+        # AlgorithmGa(func=functions, precision=precision, dimensions=dimensions, steps=steps,
+        #             popSize=pop_size,
+        #             selPressure=1, doForever=0, genNo=gen_no, genGrace=gen_grace, optimumIsMinimum=False),
+        # AlgorithmGa(func=functions, precision=precision, dimensions=dimensions, steps=steps,
+        #             popSize=pop_size,
+        #             selPressure=1, doForever=0, genNo=gen_no, genGrace=gen_grace, optimumIsMinimum=False, pm=0.5),
+        # AlgorithmGa(func=functions, precision=precision, dimensions=dimensions, steps=steps,
+        #             popSize=pop_size,
+        #             selPressure=1, doForever=0, genNo=gen_no, genGrace=gen_grace, optimumIsMinimum=False, pm=0.95),
+        # AlgorithmGaBihc(func=functions, precision=precision, dimensions=dimensions, steps=steps,
+        #                 popSize=pop_size, selPressure=1, doForever=0, genNo=gen_no, genGrace=gen_grace,
+        #                 optimumIsMinimum=False),
+        # AlgorithmGaBihc(func=functions, precision=precision, dimensions=dimensions, steps=steps,
+        #                 popSize=pop_size, selPressure=1, doForever=0, genNo=gen_no, genGrace=gen_grace,
+        #                 optimumIsMinimum=False, pm=0.5),
+        # AlgorithmGaBihc(func=functions, precision=precision, dimensions=dimensions, steps=steps,
+        #                 popSize=pop_size, selPressure=1, doForever=0, genNo=gen_no, genGrace=gen_grace,
+        #                 optimumIsMinimum=False, pm=0.95),
+    ])
+    #
+    # algos.append(AlgorithmGa(func=functions,
+    #                          precision=precision,
+    #                          dimensions=dimensions,
+    #                          steps=steps,
+    #                          popSize=pop_size,
+    #                          selPressure=1,
+    #                          doForever=1,
+    #                          genNo=gen_no,
+    #                          genGrace=gen_grace,
+    #                          optimumIsMinimum=False))
     # alg = AlgorithmBIHC(func = FunctionList[FE.rhe], precision = 5, dimensions = 2, steps = 1, doForever = 1)
     app = OglSolver(
         size=101,
